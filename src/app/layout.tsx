@@ -1,6 +1,12 @@
+import { Header } from "@/components/Header";
+import "@fortawesome/fontawesome-svg-core/styles.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+// Prevent fontawesome from adding its CSS since we did it manually above:
+import { Sidebar } from "@/components/Sidebar";
+import { config } from "@fortawesome/fontawesome-svg-core";
+config.autoAddCss = false; /* eslint-disable import/first */
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +33,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <Header />
+        <div className="flex flex-row justify-start">
+          <Sidebar />
+          <main className="grow overflow-y-auto">{children}</main>
+        </div>
       </body>
     </html>
   );
