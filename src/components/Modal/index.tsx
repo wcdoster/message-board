@@ -13,13 +13,13 @@ export const Modal: FC<ModalProps> = ({ isOpen, closeModal, children }) => {
   return (
     isOpen && (
       <div
-        className="fixed h-screen w-screen flex items-center justify-center bg-black bg-opacity-50 z-40"
+        className="fixed inset-0 h-screen w-screen flex items-center justify-center bg-black bg-opacity-50 z-40"
         onClick={() => {
           closeModal();
         }}
       >
         <div
-          className="inset-0 z-50 border h-[400px] w-[560px] rounded-lg border-gray-800 p-8 dark:bg-black bg-white bg-opacity-100"
+          className="inset-0 z-50 border w-[560px] rounded-lg border-gray-800 p-8 dark:bg-black bg-white bg-opacity-100"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();

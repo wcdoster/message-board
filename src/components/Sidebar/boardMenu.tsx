@@ -1,45 +1,29 @@
 "use client";
-import {
-  faAngleDown,
-  faAngleUp,
-  faList,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
-import { FC, useState } from "react";
+import { faClipboard } from "@fortawesome/free-solid-svg-icons";
+import dynamic from "next/dynamic";
+import { FC } from "react";
+import { CollapsibleMenu } from "../CollapsibleMenu";
+import { useModalState } from "../Modal/util";
+
+const CreateBoardModal = dynamic(() =>
+  import("./createBoardModal").then((mod) => mod.CreateBoardModal),
+);
 
 export const BoardMenu: FC = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const { openModal, isOpen, closeModal } = useModalState();
   return (
     <>
-      <div
-        onClick={(e) => {
-          e.preventDefault();
-          setIsExpanded(!isExpanded);
-        }}
-        className="flex flex-row justify-between p-4 hover:cursor-pointer"
-      >
-        <span>
-          <FontAwesomeIcon icon={faList} />
-        </span>
-        <p>Boards</p>
-        <span>
-          <FontAwesomeIcon icon={isExpanded ? faAngleDown : faAngleUp} />
-        </span>
-      </div>
-      {isExpanded && (
-        <ul className="transition-discrete">
-          <li>
-            <Link href="/">Your Boards</Link>
-          </li>
-          <li>
-            <Link href="/">Following</Link>
-          </li>
-          <li>
-            <Link href="/">All Boards</Link>
-          </li>
-        </ul>
-      )}
+      <CollapsibleMenu
+        menuIcon={faClipboard}
+        menuName="Boards"
+        menuItems={[
+          { href: "/boards", label: "All Boards" },
+          { href: "/", label: "Favorites" },
+          { href: "/", label: "Your Boards" },
+          { action: openModal, label: "Create Board" },
+        ]}
+      />
+      {isOpen && <CreateBoardModal isOpen={isOpen} closeModal={closeModal} />}
     </>
   );
 };
