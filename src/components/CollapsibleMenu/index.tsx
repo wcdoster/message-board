@@ -63,13 +63,12 @@ export const CollapsibleMenu: FC<CollapsibleMenuProps> = ({
           {menuItems.map((x, i) => (
             <li
               key={i}
-              className="pl-8 py-2 hover:bg-gray-800 hover:border-l hover:border-gray-600 rounded-e-lg"
+              className="pl-8 py-2 hover:bg-gray-800 hover:border-l hover:border-gray-600 rounded-e-lg hover:cursor-pointer"
             >
               {x.href ? (
                 <Link href={x.href}>{x.label}</Link>
               ) : (
                 <p
-                  className="hover:cursor-pointer"
                   onClick={() => {
                     if (x.action) {
                       x.action();
