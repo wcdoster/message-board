@@ -5,6 +5,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 // Prevent fontawesome from adding its CSS since we did it manually above:
 import { Sidebar } from "@/components/Sidebar";
+import { AuthProvider } from "@/util/authProvider";
 import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false; /* eslint-disable import/first */
 
@@ -33,11 +34,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        <div className="flex flex-row justify-start">
-          <Sidebar />
-          <main className="grow overflow-y-auto">{children}</main>
-        </div>
+        <AuthProvider>
+          <Header />
+          <div className="flex flex-row justify-start">
+            <Sidebar />
+            <main className="grow overflow-y-auto p-4">{children}</main>
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );

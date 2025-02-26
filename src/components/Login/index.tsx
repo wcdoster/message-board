@@ -12,7 +12,7 @@ const LoginModal = dynamic(() =>
 export const LoginButton: FC = () => {
   const { isOpen, closeModal, openModal } = useModalState();
   return (
-    <>
+    <div>
       <Button
         theme="login"
         onClick={() => {
@@ -21,7 +21,7 @@ export const LoginButton: FC = () => {
       >
         Login
       </Button>
-      <LoginModal isOpen={isOpen} closeModal={closeModal} />
-    </>
+      {isOpen && <LoginModal isOpen={isOpen} closeModal={closeModal} />}
+    </div>
   );
 };

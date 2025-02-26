@@ -3,16 +3,17 @@
 import { Button } from "@/components/Button";
 import { TextInput } from "@/components/TextInput";
 import { createBoard, CreateBoardInput } from "@/data/boards/requests";
+import { useAuthContext } from "@/util/authProvider";
 import { Formik } from "formik";
 import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
 import { Modal } from "../Modal";
 
-const initialValues: CreateBoardInput = {
+const initialValues = (userId: string): CreateBoardInput => ({
   title: "",
   description: "",
-  createdByUserId: "09b971eb-590e-4671-a9d6-ac2701d225da",
-};
+  createdByUserId: userId,
+});
 
 interface Props {
   isOpen: boolean;
@@ -20,6 +21,7 @@ interface Props {
 }
 
 export const CreateBoardModal: FC<Props> = ({ isOpen, closeModal }) => {
+  const { userId } = useAuthContext();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +30,7 @@ export const CreateBoardModal: FC<Props> = ({ isOpen, closeModal }) => {
       <div className="text-center">
         <p className="text-xl">Create New Board</p>
         <Formik
-          initialValues={initialValues}
+          initialValues={initialValues(userId ?? "")}
           onSubmit={async (values) => {
             setError(null);
             try {

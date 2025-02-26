@@ -1,5 +1,6 @@
 "use client";
-import { FC, useState } from "react";
+import { useAuthContext } from "@/util/authProvider";
+import { FC, useEffect, useState } from "react";
 import { Button } from "../Button";
 import { Modal } from "../Modal";
 
@@ -9,6 +10,14 @@ interface LoginModalProps {
 }
 
 export const LoginModal: FC<LoginModalProps> = ({ isOpen, closeModal }) => {
+  const { login, loading, error, clearAuthState } = useAuthContext();
+
+  useEffect(() => {
+    return () => {
+      clearAuthState();
+    };
+  }, [clearAuthState]);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   return (
@@ -43,11 +52,18 @@ export const LoginModal: FC<LoginModalProps> = ({ isOpen, closeModal }) => {
             New User? <a>Sign up</a>
           </p>
         </div>
+        {error && <p>{error}</p>}
         <Button
           theme="primary"
-          onClick={() => {
-            closeModal();
+          onClick={async () => {
+            if (login) {
+              const success = await login(email, password);
+              if (success) {
+                closeModal();
+              }
+            }
           }}
+          disabled={Boolean(loading)}
         >
           Login
         </Button>

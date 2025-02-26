@@ -10,12 +10,16 @@ export const getBoardById = async (id: string): Promise<Board> => {
 };
 
 export const getAllBoards = async (): Promise<Board[]> => {
-  const response = await fetch(`${process.env.API_URL}/boards`);
-  if (!response.ok) {
-    throw new Error(response.status.toString());
+  try {
+    const response = await fetch(`${process.env.API_URL}/boards`);
+    if (!response.ok) {
+      throw new Error(response.status.toString());
+    }
+    const boards = await response.json();
+    return boards;
+  } catch {
+    return [];
   }
-  const boards = await response.json();
-  return boards;
 };
 
 export interface CreateBoardInput {

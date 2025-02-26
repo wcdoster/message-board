@@ -10,7 +10,7 @@ import { TextInput } from "../TextInput";
 export const Search: FC = () => {
   const [searchInput, setSearchInput] = useState("");
   return (
-    <div className="grow text-center">
+    <div className="grow text-center px-4">
       <TextInput
         id="search"
         name="search"
