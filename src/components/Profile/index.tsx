@@ -1,63 +1,74 @@
+"use client";
+
 import { useAuthContext } from "@/util/authProvider";
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import clsx from "clsx";
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useCallback, useMemo } from "react";
+import { LoginModal } from "../LoginModal/index";
+import { useModalState } from "../Modal/util";
+import { ProfileButton, ProfileMenuOptions } from "../ProfileButton";
+import { RegisterModal } from "../RegisterModal/index";
 
 export const Profile: FC = () => {
-  const { logout } = useAuthContext();
-  const [isExpanded, setIsExpanded] = useState(false);
-  const ref = useRef<HTMLDivElement | null>(null);
-  const handleClickOutside = (event: MouseEvent) => {
-    if (ref.current && !ref.current.contains(event.target as Node)) {
-      setIsExpanded(false);
-    }
-  };
+  const { logout, userId } = useAuthContext();
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  const {
+    isOpen: loginModalIsOpen,
+    closeModal: closeLoginModal,
+    openModal: openLoginModal,
+  } = useModalState();
+  const {
+    isOpen: registerModalIsOpen,
+    closeModal: closeRegisterModal,
+    openModal: openRegisterModal,
+  } = useModalState();
 
-  return (
-    <div ref={ref}>
-      <div className="pt-[10px] pr-4 hover:cursor-pointer">
-        <FontAwesomeIcon
-          size="2x"
-          icon={faCircleUser}
-          onClick={() => {
-            setIsExpanded(!isExpanded);
-          }}
-        />
-      </div>
-      <div ref={ref} className="w-full">
-        <ul
-          onBlur={() => {
-            setIsExpanded(false);
-          }}
-          className={clsx(
-            "absolute top-[64px] right-0 w-[128px] transition-all ease-in-out delay-150 duration-300 overflow-hidden rounded-xl bg-gray-800",
+  const handleOpenRegisterModal = useCallback(() => {
+    closeLoginModal();
+    openRegisterModal();
+  }, [closeLoginModal, openRegisterModal]);
+
+  const menuOptions: ProfileMenuOptions[] = useMemo(
+    () =>
+      userId
+        ? [
             {
-              "h-0 max-h-0": !isExpanded,
-              "h-full max-h-[1000]": isExpanded,
+              text: "Log Out",
+              onClick: () => {
+                if (logout) logout();
+              },
             },
-          )}
-        >
-          <li className="p-2 hover:bg-gray-800 rounded-e-lg hover:cursor-pointer hover:text-gray-400 text-center">
-            <p
-              onClick={() => {
-                if (logout) {
-                  logout();
-                }
-              }}
-            >
-              Logout
-            </p>
-          </li>
-        </ul>
-      </div>
-    </div>
+          ]
+        : [
+            {
+              text: "Log In",
+              onClick: () => {
+                openLoginModal();
+              },
+            },
+            {
+              text: "Register",
+              onClick: () => {
+                openRegisterModal();
+              },
+            },
+          ],
+    [userId, logout, openLoginModal, openRegisterModal],
+  );
+  return (
+    <>
+      <ProfileButton menuOptions={menuOptions} />
+      {loginModalIsOpen && (
+        <LoginModal
+          isOpen={loginModalIsOpen}
+          closeModal={closeLoginModal}
+          openRegisterModal={handleOpenRegisterModal}
+        />
+      )}
+      {registerModalIsOpen && (
+        <RegisterModal
+          isOpen={registerModalIsOpen}
+          closeModal={closeRegisterModal}
+        />
+      )}
+    </>
   );
 };

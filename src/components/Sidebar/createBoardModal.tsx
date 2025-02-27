@@ -21,7 +21,7 @@ interface Props {
 }
 
 export const CreateBoardModal: FC<Props> = ({ isOpen, closeModal }) => {
-  const { userId } = useAuthContext();
+  const { userId, token } = useAuthContext();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -35,11 +35,14 @@ export const CreateBoardModal: FC<Props> = ({ isOpen, closeModal }) => {
             setError(null);
             try {
               setIsLoading(true);
-              const { id } = await createBoard({
-                title: values.title,
-                description: values.description,
-                createdByUserId: values.createdByUserId,
-              });
+              const { id } = await createBoard(
+                {
+                  title: values.title,
+                  description: values.description,
+                  createdByUserId: values.createdByUserId,
+                },
+                token ?? "",
+              );
               router.push(`/boards/${id}`);
               closeModal();
             } catch {

@@ -28,11 +28,15 @@ export interface CreateBoardInput {
   createdByUserId: string;
 }
 
-export const createBoard = async (opts: CreateBoardInput): Promise<Board> => {
+export const createBoard = async (
+  opts: CreateBoardInput,
+  token: string,
+): Promise<Board> => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/boards`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
       title: opts.title,
