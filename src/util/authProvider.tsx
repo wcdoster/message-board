@@ -1,5 +1,7 @@
 "use client";
 
+import { getUserInfo } from "@/data/users/requests";
+import { UserInfo } from "@/data/users/types";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import {
@@ -12,7 +14,7 @@ import {
 } from "react";
 
 interface UserContext {
-  userId: string | null | undefined;
+  user: UserInfo | null | undefined;
   authToken: string | null;
   login:
     | ((userName: string, password: string) => Promise<boolean | void>)
@@ -28,10 +30,11 @@ interface UserContext {
   error: string | null;
   loading: boolean;
   clearAuthState: () => void;
+  refetchUser: () => void;
 }
 
 const AuthContext = createContext<UserContext>({
-  userId: undefined,
+  user: undefined,
   authToken: null,
   login: async () => {},
   register: async () => {},
@@ -39,6 +42,7 @@ const AuthContext = createContext<UserContext>({
   error: null,
   loading: false,
   clearAuthState: () => {},
+  refetchUser: () => {},
 });
 
 interface ProviderProps {
@@ -50,9 +54,22 @@ const url = process.env.NEXT_PUBLIC_API_URL;
 
 export const AuthProvider = ({ children }: ProviderProps) => {
   const [authToken, setAuthToken] = useState<string | null>(null);
-  const [userId, setUserId] = useState<string | null | undefined>();
+  const [user, setUser] = useState<UserInfo | null | undefined>();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const fetchUser = useCallback(async (userId: string, token: string) => {
+    const user = await getUserInfo(userId, token);
+    if (user) {
+      setUser(user);
+    } else {
+      logout();
+    }
+  }, []);
+
+  const refetchUser = async (): Promise<void> => {
+    if (user && authToken) await fetchUser(user?.id, authToken);
+  };
 
   const verifyToken = useCallback(async (token: string): Promise<void> => {
     const res = await fetch(url + "/verify-token", {
@@ -66,7 +83,8 @@ export const AuthProvider = ({ children }: ProviderProps) => {
       logout();
     } else {
       setAuthToken(token);
-      setUserId(jwtDecode<{ userId: string }>(token).userId);
+      const userId = await jwtDecode<{ userId: string }>(token).userId;
+      fetchUser(userId, token);
     }
   }, []);
 
@@ -98,8 +116,8 @@ export const AuthProvider = ({ children }: ProviderProps) => {
       const userId = response.userId;
       if (token && userId) {
         setAuthToken(token);
-        setUserId(userId);
         Cookies.set(cookieName, token);
+
         setLoading(false);
         return true;
       }
@@ -115,7 +133,7 @@ export const AuthProvider = ({ children }: ProviderProps) => {
   const logout = () => {
     Cookies.remove(cookieName);
     setAuthToken(null);
-    setUserId(null);
+    setUser(null);
   };
 
   const register = async (
@@ -148,8 +166,8 @@ export const AuthProvider = ({ children }: ProviderProps) => {
       const userId = response.userId;
       if (token && userId) {
         setAuthToken(token);
-        setUserId(userId);
         Cookies.set(cookieName, token);
+        fetchUser(userId, token);
         setLoading(false);
         return true;
       }
@@ -170,12 +188,13 @@ export const AuthProvider = ({ children }: ProviderProps) => {
   const value = {
     authToken,
     login,
-    userId,
+    user,
     logout,
     error,
     loading,
     clearAuthState,
     register,
+    refetchUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -187,10 +206,11 @@ export const useAuthContext = () => {
     login: context.login,
     logout: context.logout,
     token: context.authToken,
-    userId: context.userId,
+    user: context.user,
     loading: context.loading,
     error: context.error,
     clearAuthState: context.clearAuthState,
     register: context.register,
+    refetchUser: context.refetchUser,
   };
 };

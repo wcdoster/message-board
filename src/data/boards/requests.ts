@@ -11,7 +11,7 @@ export const getBoardById = async (id: string): Promise<Board> => {
 
 export const getAllBoards = async (): Promise<Board[]> => {
   try {
-    const response = await fetch(`${process.env.API_URL}/boards`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/boards`);
     if (!response.ok) {
       throw new Error(response.status.toString());
     }
@@ -49,4 +49,42 @@ export const createBoard = async (
   }
   const board: Board = await response.json();
   return board;
+};
+
+export const getJoinedBoardsByUserId = async (
+  userId: string,
+  token: string,
+) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/boards/members/${userId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  if (!response.ok) {
+    throw new Error(response.status.toString());
+  }
+  const boards: Board[] = await response.json();
+  return boards;
+};
+
+export const getBoardsByCreatedByUserId = async (
+  userId: string,
+  token: string,
+) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/boards/createdBy/${userId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  if (!response.ok) {
+    throw new Error(response.status.toString());
+  }
+  const boards: Board[] = await response.json();
+  return boards;
 };

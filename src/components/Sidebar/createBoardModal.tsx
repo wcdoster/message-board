@@ -21,7 +21,7 @@ interface Props {
 }
 
 export const CreateBoardModal: FC<Props> = ({ isOpen, closeModal }) => {
-  const { userId, token } = useAuthContext();
+  const { user, token } = useAuthContext();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +30,7 @@ export const CreateBoardModal: FC<Props> = ({ isOpen, closeModal }) => {
       <div className="text-center">
         <p className="text-xl">Create New Board</p>
         <Formik
-          initialValues={initialValues(userId ?? "")}
+          initialValues={initialValues(user?.id ?? "")}
           onSubmit={async (values) => {
             setError(null);
             try {

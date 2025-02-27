@@ -11,7 +11,7 @@ const CreateBoardModal = dynamic(() =>
 );
 
 export const BoardMenu: FC = () => {
-  const { userId } = useAuthContext();
+  const { user } = useAuthContext();
   const { openModal, isOpen, closeModal } = useModalState();
   return (
     <>
@@ -20,10 +20,10 @@ export const BoardMenu: FC = () => {
         menuName="Boards"
         menuItems={[
           { href: "/boards", label: "All Boards" },
-          ...(userId
+          ...(user
             ? [
-                { href: "/", label: "Favorites" },
-                { href: "/", label: "Your Boards" },
+                { href: "/boards/joined-boards", label: "Joined Boards" },
+                { href: "/boards/created-boards", label: "Your Boards" },
                 { action: openModal, label: "Create Board" },
               ]
             : []),

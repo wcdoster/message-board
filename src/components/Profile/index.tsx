@@ -8,7 +8,7 @@ import { ProfileButton, ProfileMenuOptions } from "../ProfileButton";
 import { RegisterModal } from "../RegisterModal/index";
 
 export const Profile: FC = () => {
-  const { logout, userId } = useAuthContext();
+  const { logout, user } = useAuthContext();
 
   const {
     isOpen: loginModalIsOpen,
@@ -28,7 +28,7 @@ export const Profile: FC = () => {
 
   const menuOptions: ProfileMenuOptions[] = useMemo(
     () =>
-      userId
+      user
         ? [
             {
               text: "Log Out",
@@ -51,7 +51,7 @@ export const Profile: FC = () => {
               },
             },
           ],
-    [userId, logout, openLoginModal, openRegisterModal],
+    [user, logout, openLoginModal, openRegisterModal],
   );
   return (
     <>
