@@ -33,7 +33,10 @@ export const Profile: FC = () => {
             {
               text: "Log Out",
               onClick: () => {
-                if (logout) logout();
+                if (logout) {
+                  logout();
+                  location.reload();
+                }
               },
             },
           ]

@@ -23,6 +23,15 @@ export const LoginModal: FC<LoginModalProps> = ({
     };
   }, []);
 
+  const handleLogin = async () => {
+    if (login) {
+      const success = await login(email, password);
+      if (success) {
+        location.reload();
+      }
+    }
+  };
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   return (
@@ -38,6 +47,11 @@ export const LoginModal: FC<LoginModalProps> = ({
           onChange={(e) => {
             setEmail(e.target.value);
           }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleLogin();
+            }
+          }}
           className="m-2 w-full text-md max-w-md rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
         />
         <input
@@ -48,6 +62,11 @@ export const LoginModal: FC<LoginModalProps> = ({
           value={password}
           onChange={(e) => {
             setPassword(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleLogin();
+            }
           }}
           className="m-2 w-full max-w-md rounded-lg border border-gray-300 bg-gray-50 p-2 text-md text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
         />
@@ -68,14 +87,7 @@ export const LoginModal: FC<LoginModalProps> = ({
         </div>
         <Button
           theme="primary"
-          onClick={async () => {
-            if (login) {
-              const success = await login(email, password);
-              if (success) {
-                closeModal();
-              }
-            }
-          }}
+          onClick={handleLogin}
           disabled={Boolean(loading)}
         >
           Login

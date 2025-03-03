@@ -1,6 +1,7 @@
 "use client";
 
 import { BoardCard } from "@/components/BoardCard";
+import { CardGrid } from "@/components/CardGrid";
 import { getBoardsByCreatedByUserId } from "@/data/boards/requests";
 import { Board } from "@/data/boards/types";
 import { useAuthContext } from "@/util/authProvider";
@@ -13,7 +14,6 @@ export const YourCreatedBoards: FC = () => {
   const getBoards = useCallback(() => {
     if (user && token) {
       getBoardsByCreatedByUserId(user?.id, token).then((x) => {
-        console.log(x);
         setBoards(x);
       });
     }
@@ -23,12 +23,12 @@ export const YourCreatedBoards: FC = () => {
     getBoards();
   }, [getBoards]);
   return (
-    <div>
+    <CardGrid>
       {boards?.map((x, i) => {
         return (
           <BoardCard key={i} board={x} revalidate={getBoards} removeButton />
         );
       })}
-    </div>
+    </CardGrid>
   );
 };

@@ -52,44 +52,49 @@ export const BoardCard: FC<BoardCardProps> = ({
     }
   };
   return (
-    <Link href={`/boards/${board.id}`}>
-      <Card>
-        <div className="flex flex-row justify-between">
-          <div>
-            <p className="text-xl">{board.title}</p>
+    <Card>
+      <Link href={`/boards/${board.id}`}>
+        <div className="flex flex-row justify-between mb-2">
+          <div className="">
+            <p className="text- overflow-hidden whitespace-nowrap text-ellipsis">
+              {board.title}
+            </p>
             <p className="text-sm">
               {parseInt(board.memberCount.toString())} Members
             </p>
           </div>
-          {user &&
-            (userIsMember && !removeButton ? (
-              <Button
-                theme="dark"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleUnjoinClick();
-                }}
-              >
-                Joined
-              </Button>
-            ) : (
-              <Button
-                theme="primary"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleJoinClick();
-                }}
-              >
-                Join
-              </Button>
-            ))}
+          {user && (
+            <div className="h-[40px]">
+              {userIsMember && !removeButton ? (
+                <Button
+                  theme="dark"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleUnjoinClick();
+                  }}
+                >
+                  Joined
+                </Button>
+              ) : (
+                <Button
+                  theme="primary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleJoinClick();
+                  }}
+                >
+                  Join
+                </Button>
+              )}
+            </div>
+          )}
         </div>
         <div className="">
           <p className="text-sm">{board.description}</p>
         </div>
-      </Card>
-    </Link>
+      </Link>
+    </Card>
   );
 };

@@ -90,7 +90,6 @@ export const AuthProvider = ({ children }: ProviderProps) => {
 
   useEffect(() => {
     const jwtCookie = Cookies.get(cookieName);
-    console.log(jwtCookie);
     if (jwtCookie) {
       verifyToken(jwtCookie);
     }
