@@ -26,7 +26,7 @@ export const YourCreatedBoards: FC = () => {
     <CardGrid>
       {boards?.map((x, i) => {
         return (
-          <BoardCard key={i} board={x} revalidate={getBoards} removeButton />
+          <BoardCard key={i} board={x} removeButton />
         );
       })}
     </CardGrid>
