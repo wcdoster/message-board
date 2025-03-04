@@ -12,4 +12,8 @@ export interface Post {
   createdByUserId: string;
   createdAt: Date;
   boardId: string;
+  createdBy: {
+    id: string;
+    username: string;
+  };
 }

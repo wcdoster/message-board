@@ -15,18 +15,12 @@ interface PageHeaderProps {
 export const PageHeader: FC<PageHeaderProps> = ({ board }) => {
   const { user } = useAuthContext();
   return (
-    <div className="flex flex-row justify-between h-[64px]">
+    <div className="flex flex-row justify-between pb-4 min-h-[80px] flex-wrap">
       <p className="text-3xl my-auto">{board?.title}</p>
       {user && (
         <div className="flex flex-row my-auto">
           <Link href={`/boards/${board.id}/create-post`}>
-            <Button
-              onClick={() => {}}
-              // onClick={() => {
-              //   router.push(`/boards/${board.id}/create-post`);
-              // }}
-              theme="dark"
-            >
+            <Button onClick={() => {}} theme="dark">
               <FontAwesomeIcon icon={faPlus} /> Create Post
             </Button>
           </Link>
