@@ -48,12 +48,14 @@ export const Sidebar: FC = () => {
         <div>
           <Link
             href={"/"}
-            className="flex flex-row justify-start px-4 py-2 text-lg hover:bg-gray-800 rounded-lg"
+            className="flex flex-row justify-start px-4 py-2 text-lg hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
           >
             <span className="mr-4 w-8 text-center">
               <FontAwesomeIcon icon={faHouse} />
             </span>
-            <p className="text-lg rounded-lg hover:bg-gray-800">Home</p>
+            <p className="text-lg rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+              Home
+            </p>
           </Link>
           <BoardMenu />
           <CollapsibleMenu

@@ -45,7 +45,7 @@ export const ProfileButton: FC<ProfileButtonProps> = ({ menuOptions }) => {
             setIsExpanded(false);
           }}
           className={clsx(
-            "absolute top-[64px] right-0 w-[128px] transition-all ease-in-out delay-150 duration-300 overflow-hidden rounded-xl bg-gray-800",
+            "absolute top-[64px] right-0 w-[128px] transition-all ease-in-out delay-150 duration-300 overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800",
             {
               "h-0 max-h-0": !isExpanded,
               "max-h-[1000]": isExpanded,

@@ -62,6 +62,7 @@ export const CreateBoardModal: FC<Props> = ({ isOpen, closeModal }) => {
                   onChange={(e) => {
                     setValues({ ...values, title: e.target.value });
                   }}
+                  extraMargin
                 />
                 <TextInput
                   id="description"
@@ -71,6 +72,7 @@ export const CreateBoardModal: FC<Props> = ({ isOpen, closeModal }) => {
                   onChange={(e) => {
                     setValues({ ...values, description: e.target.value });
                   }}
+                  extraMargin
                 />
                 {error && <p>{error}</p>}
                 <Button

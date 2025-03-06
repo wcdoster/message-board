@@ -33,7 +33,7 @@ export const CollapsibleMenu: FC<CollapsibleMenuProps> = ({
           e.stopPropagation();
           setIsExpanded(!isExpanded);
         }}
-        className="flex flex-row justify-between px-4 py-2 hover:cursor-pointer hover:bg-gray-800 rounded-lg text-lg select-none"
+        className="flex flex-row justify-between px-4 py-2 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg text-lg select-none"
       >
         <div className="flex flex-row justify-start">
           <div className="mr-4 pt-1 w-8 flex justify-center">
@@ -63,7 +63,7 @@ export const CollapsibleMenu: FC<CollapsibleMenuProps> = ({
           {menuItems.map((x, i) => (
             <li
               key={i}
-              className="pl-8 py-2 hover:bg-gray-800 hover:border-l hover:border-gray-600 rounded-e-lg hover:cursor-pointer"
+              className="pl-8 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 hover:border-l hover:border-gray-600 rounded-e-lg hover:cursor-pointer"
             >
               {x.href ? (
                 <Link href={x.href}>{x.label}</Link>

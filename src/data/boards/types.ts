@@ -7,5 +7,5 @@ export type Board = {
   createdByUserId: string;
   createdAt: string;
   createdBy: User;
-  memberCount: number | string;
+  _count: { members: number; posts: number };
 };

@@ -1,6 +1,8 @@
 "use client";
 import { Board } from "@/data/boards/types";
 import { useAuthContext } from "@/util/authProvider";
+import { faSignsPost, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { FC } from "react";
 import { Card } from "../Card";
@@ -29,7 +31,14 @@ export const BoardCard: FC<BoardCardProps> = ({
                 {board.title}
               </p>
               <p className="text-sm">
-                {parseInt(board.memberCount.toString())} Members
+                <FontAwesomeIcon width={16} icon={faSignsPost} />{" "}
+                {parseInt(board._count.posts.toString())} Post
+                {board._count.posts !== 1 && "s"}
+              </p>
+              <p className="text-sm">
+                <FontAwesomeIcon width={16} icon={faUsers} />{" "}
+                {parseInt(board._count.members.toString())} Member
+                {board._count.members !== 1 && "s"}
               </p>
             </div>
             {user && !removeButton && (

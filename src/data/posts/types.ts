@@ -16,4 +16,5 @@ export interface Post {
     id: string;
     username: string;
   };
+  _count: { comments: number };
 }
