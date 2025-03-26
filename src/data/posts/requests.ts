@@ -12,7 +12,7 @@ export const getPostsByBoardId = async (id: string): Promise<[]> => {
 export const createPost = async (
   opts: CreatePostInput,
   token: string,
-): Promise<Post> => {
+): Promise<Partial<Post>> => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts`, {
     method: "POST",
     headers: {
@@ -31,4 +31,13 @@ export const createPost = async (
   }
   const post = await response.json();
   return post;
+};
+
+export const getPostById = async (id: string): Promise<Post> => {
+  const response = await fetch(`${process.env.API_URL}/posts/${id}`);
+  if (!response.ok) {
+    throw new Error(response.status.toString());
+  }
+  const posts = await response.json();
+  return posts;
 };

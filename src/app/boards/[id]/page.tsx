@@ -8,7 +8,6 @@ export default async function Page({ params }: { params: { id: string } }) {
   const { id } = await params;
   const boardInfo = await getBoardById(id);
   const posts = await getPostsByBoardId(id);
-  console.log(posts);
   return (
     <>
       <PageHeader board={boardInfo} />

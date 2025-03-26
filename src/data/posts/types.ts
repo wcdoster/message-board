@@ -1,3 +1,5 @@
+import { Board } from "../boards/types";
+
 export interface CreatePostInput {
   description: string;
   title: string;
@@ -16,5 +18,7 @@ export interface Post {
     id: string;
     username: string;
   };
+  board: Board;
   _count: { comments: number };
+  comments: [];
 }

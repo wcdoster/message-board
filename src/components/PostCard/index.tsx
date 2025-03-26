@@ -1,9 +1,9 @@
 import { Post } from "@/data/posts/types";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 import Link from "next/link";
 import { FC } from "react";
+import { Pill } from "../Pill";
 
 interface PostCardProps {
   post: Post;
@@ -21,8 +21,7 @@ export const PostCard: FC<PostCardProps> = ({ post }) => {
           <p className="text-sm">{post.description}</p>
           <div className="flex flex-row flex-start my-2">
             <div className="flex flex-row flex-start basis-auto p-1 rounded-3xl bg-gray-100 dark:bg-gray-700 w-auto">
-              <FontAwesomeIcon className="my-auto mx-2" icon={faComment} />
-              <p className="px-1">{post._count.comments}</p>
+              <Pill text={post._count.comments} icon={faComment} />
             </div>
           </div>
         </Link>
