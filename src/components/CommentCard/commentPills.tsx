@@ -28,6 +28,7 @@ export const CommentPills: FC<CommentPillsProps> = ({ comment, postId }) => {
       <div className="flex flex-row flex-start basis-auto p-1 gap-1 w-auto">
         <VotePill
           netVotes={comment._count.upvotes - comment._count.downvotes}
+          commentId={comment.id}
         />
         <div
           className="hover:cursor-pointer"

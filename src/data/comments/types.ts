@@ -18,3 +18,15 @@ export interface Comment {
   parentCommentId: string;
   subComments?: Comment[];
 }
+
+export interface CreateUpvoteDownvoteInput {
+  createdByUserId: string;
+  commentId: string;
+}
+
+export interface Vote {
+  commentId: string;
+  createdAt: string;
+  createdByUserId: string;
+  id: string;
+}
